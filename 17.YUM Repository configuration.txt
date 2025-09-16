@@ -1,0 +1,74 @@
+####################YUM Repository configuration######################
+Appstreame:Apstream is used for installing the application and BAse os is
+used to install Base os required packages.
+
+We will create a directory
+#mkdir  /rpms
+
+And dump all dvd repository App stream and BaseOS to this rpms 
+#cd /mnt/
+#ls 
+AppStream EULA Images EPM-GPG-KEY-redhat-beta
+BaseOS extra_fie.json Isolinux EPM-GPG-KEY-redhat-release
+EFI GPL media.repo Trans.TBL
+
+#cp -R BaseOS /rpms/
+#cp -R AppStream /rpms/
+
+Now go to rpms directory
+#cd /rpms/
+#ls
+AppStream BaseOS
+
+#cd /etc/yum.reos.d/
+#ls
+redhat.repo
+#vi Appstram.repo
+[AppStream]
+name="App Stream Repo"
+baseurl=file:///rpms/AppStream/
+enabled = 1
+gpgcheck=0
+
+:wq!
+
+#vi BaseOS.repo
+[BaseOS]
+name="BaseOS Repo"
+baseurl=file:///rpms/BasOS/
+enabled = 1
+gpgcheck=0
+
+:wq!
+
+Let me check weather the path correct or not
+#cd /rpms/
+#ls
+AppStream BaseOS
+
+#cat /etc/yum.repos.d/BaseOS
+[BaseOS]
+name="BaseOS Repo"
+baseurl=file:///rpms/BasOS/
+enabled = 1
+gpgcheck=0
+
+#cat /etc/yum.repos.d/AppStream
+[AppStream]
+name="App Stream Repo"
+baseurl=file:///rpms/AppStream/
+enabled = 1
+gpgcheck=0
+
+#cd 
+#yum clean all
+#yum repolist
+
+In order to register your all of your packages so that the system wont ask you or gives yoo error
+#rpm --import RPM-GPG-KEY-redhat-release
+RPM-GPG-KEY-redhat-release RPM-GPG-KEY-redhat-beta
+#cd
+
+now you can install you want
+yum install httpd -y
+
